@@ -1,0 +1,57 @@
+<font-family xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- regular -->
+    <font
+        app:font="@font/pregular"
+        app:fontStyle="normal"
+        app:fontWeight="400" />
+
+    <!-- italic -->
+    <font
+        app:font="@font/pitalic"
+        app:fontStyle="italic"
+        app:fontWeight="400" />
+
+    <!-- medium -->
+    <font
+        app:font="@font/pmedium"
+        app:fontStyle="normal"
+        app:fontWeight="500" />
+
+    <!-- medium italic -->
+    <font
+        app:font="@font/pmedium_italic"
+        app:fontStyle="italic"
+        app:fontWeight="500" />
+
+    <!-- semibold -->
+    <font
+        app:font="@font/psemibold"
+        app:fontStyle="normal"
+        app:fontWeight="600" />
+
+    <!-- semibold italic -->
+    <font
+        app:font="@font/psemibold_italic"
+        app:fontStyle="italic"
+        app:fontWeight="600" />
+
+    <!-- bold -->
+    <font
+        app:font="@font/psemibold"
+        app:fontStyle="normal"
+        app:fontWeight="700" />
+
+    <!-- bold italic -->
+    <font
+        app:font="@font/psemibold_italic"
+        app:fontStyle="italic"
+        app:fontWeight="700" />
+
+    <!-- light -->
+    <font
+        app:font="@font/plight"
+        app:fontStyle="normal"
+        app:fontWeight="300" />
+
+</font-family>
