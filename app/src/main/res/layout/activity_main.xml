@@ -33,6 +33,17 @@
                 android:textAppearance="@style/ToolbarTitle"
                 android:textColor="?attr/colorOnSurfaceVariant" />
 
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:indeterminate="true"
+                android:visibility="gone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+
         </com.google.android.material.appbar.MaterialToolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
