@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/hsv_sort"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="8dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_algorithm"
+            app:chipIcon="@drawable/ic_arrow_drop_down"
+            app:chipStrokeColor="?attr/colorOutlineVariant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/insertion_sort" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_category"
+            app:chipIcon="@drawable/ic_arrow_drop_down"
+            app:chipStrokeColor="?attr/colorOutlineVariant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book ID" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_sort_order"
+            app:chipIcon="@drawable/ic_arrow_drop_down"
+            app:chipStrokeColor="?attr/colorOutlineVariant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ascending" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+</HorizontalScrollView>

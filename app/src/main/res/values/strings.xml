@@ -2,4 +2,24 @@
     <string name="app_name">Librarian</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="book_id">Book ID</string>
+    <string name="title">Title</string>
+    <string name="author">Author</string>
+    <string name="year">Year</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="quick_sort">Quick Sort</string>
+    <string name="insertion_sort">Insertion Sort</string>
+    <string name="merge_sort">Merge Sort</string>
+    <string name="borrow">Borrow</string>
+    <string name="_return">Return</string>
+    <string name="add_book">Add book</string>
+    <string name="add_book_capt">Add Book</string>
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="version">Version %1$s</string>
+    <string name="save">Save</string>
+    <string name="add_book_cover">Add Book Cover</string>
+    <string name="book_cover">Book cover</string>
+    <string name="close">Close</string>
 </resources>
