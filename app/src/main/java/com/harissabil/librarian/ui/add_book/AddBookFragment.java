@@ -1,66 +1,146 @@
 package com.harissabil.librarian.ui.add_book;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static com.harissabil.librarian.core.util.FileUtilKt.createTempFile;
+
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.TooltipCompat;
+import androidx.core.view.WindowCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.harissabil.librarian.MainViewModel;
+import com.harissabil.librarian.MainViewModel.Screen;
 import com.harissabil.librarian.R;
+import com.harissabil.librarian.data.model.Book;
+import com.harissabil.librarian.databinding.FragmentAddBookBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddBookFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AddBookFragment extends Fragment {
+import java.util.Objects;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class AddBookFragment extends DialogFragment {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentAddBookBinding binding;
+    private MainViewModel viewModel;
 
-    public AddBookFragment() {
-        // Required empty public constructor
-    }
+    // Registers a photo picker activity launcher in single-select mode.
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                // Callback is invoked after the user selects a media item or closes the
+                // photo picker.
+                if (uri != null) {
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                    binding.ivBookCover.ivPreview.setImageURI(uri);
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddBookFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddBookFragment newInstance(String param1, String param2) {
-        AddBookFragment fragment = new AddBookFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().getWindow(), true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_book, container, false);
+        binding = FragmentAddBookBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            FragmentManager fm = getParentFragmentManager();
+            fm.popBackStack();
+        });
+
+        if (SDK_INT >= Build.VERSION_CODES.O) {
+            binding.toolbar.getChildAt(0).setTooltipText(getString(R.string.close));
+        } else {
+            TooltipCompat.setTooltipText(binding.toolbar.getChildAt(0), getString(R.string.close));
+        }
+
+        // Launch the photo picker and let the user choose only images.
+        binding.cvBookCover.setOnClickListener(v -> pickMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                .build()));
+
+        binding.toolbar.getMenu().findItem(R.id.action_save).setOnMenuItemClickListener(item -> {
+            // Hide the keyboard
+            InputMethodManager imm = (InputMethodManager) requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+            String imagePath;
+
+            String title = Objects.requireNonNull(binding.tietTitle.getText()).toString();
+            String author = Objects.requireNonNull(binding.tietAuthor.getText()).toString();
+            String year = Objects.requireNonNull(binding.tietYear.getText()).toString();
+            Drawable bookCover = binding.ivBookCover.ivPreview.getDrawable();
+
+            Bitmap bitmap;
+            if (bookCover instanceof BitmapDrawable) {
+                bitmap = ((BitmapDrawable) bookCover).getBitmap();
+            } else {
+                bitmap = null;
+            }
+
+            if (title.isEmpty() || author.isEmpty() || year.isEmpty()) {
+                if (title.isEmpty()) {
+                    binding.tilTitle.setError("Title is required");
+                }
+                if (author.isEmpty()) {
+                    binding.tilAuthor.setError("Author is required");
+                }
+                if (year.isEmpty()) {
+                    binding.tilYear.setError("Year is required");
+                }
+                return false;
+            }
+
+            if (bitmap != null) {
+                imagePath = createTempFile(bitmap, requireContext());
+            } else {
+                imagePath = null;
+            }
+
+            viewModel.addBook(new Book(
+                    viewModel.getNextBookId(),
+                    title,
+                    author,
+                    Integer.parseInt(year),
+                    imagePath,
+                    false
+            ), Screen.ADD_BOOK);
+
+            // Close the fragment
+            FragmentManager fm = getParentFragmentManager();
+            fm.popBackStack();
+
+            return true;
+        });
     }
 }
