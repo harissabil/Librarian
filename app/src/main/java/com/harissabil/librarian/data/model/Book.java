@@ -8,6 +8,7 @@ public class Book {
     private String author;
     private int year;
     private String image;
+
     private boolean isBorrowed;
 
     public Book(int id, String title, String author, int year, String image, boolean isBorrowed) {
@@ -51,20 +52,20 @@ public class Book {
         this.image = image;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
-    }
-
-    public void setBorrowed(boolean borrowed) {
-        isBorrowed = borrowed;
-    }
-
     public int getYear() {
         return year;
     }
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean isBorrowed() {
+        return isBorrowed;
+    }
+
+    public void setBorrowed(boolean borrowed) {
+        isBorrowed = borrowed;
     }
 
     @Override
@@ -79,4 +80,5 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id, title, author, year, image, isBorrowed);
     }
+
 }
