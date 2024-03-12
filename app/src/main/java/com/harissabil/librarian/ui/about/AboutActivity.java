@@ -21,6 +21,9 @@ import com.harissabil.librarian.databinding.ActivityAboutBinding;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AboutActivity extends AppCompatActivity {
 
     private ActivityAboutBinding binding;
