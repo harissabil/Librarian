@@ -3,7 +3,6 @@ package com.harissabil.librarian.core.data_structure.sorting
 import android.util.Log
 import com.harissabil.librarian.core.data_structure.sorting.enums.SortBy
 import com.harissabil.librarian.core.data_structure.sorting.enums.SortOrder
-import com.harissabil.librarian.core.util.Constant.DELAY_DURATION
 import com.harissabil.librarian.data.model.Book
 import kotlinx.coroutines.delay
 
@@ -16,15 +15,16 @@ object QuickSort {
         high: Int,
         sortBy: SortBy,
         sortOrder: SortOrder,
+        delayDuration: Long,
         callback: (sortedBooks: List<Book>, isSorting: Boolean) -> Unit,
     ) {
         if (low < high) {
             // Partition the array
-            val pi = partition(arr, low, high, sortBy, sortOrder, callback)
+            val pi = partition(arr, low, high, sortBy, sortOrder, delayDuration, callback)
 
             // Recursively sort elements before and after partition
-            quickSort(arr, low, pi - 1, sortBy, sortOrder, callback)
-            quickSort(arr, pi + 1, high, sortBy, sortOrder, callback)
+            quickSort(arr, low, pi - 1, sortBy, sortOrder, delayDuration, callback)
+            quickSort(arr, pi + 1, high, sortBy, sortOrder, delayDuration, callback)
 
             if (low == 0 && high == arr.size - 1) {
                 callback(arr, false)
@@ -40,6 +40,7 @@ object QuickSort {
         high: Int,
         sortBy: SortBy,
         sortOrder: SortOrder,
+        delayDuration: Long,
         callback: (sortedBooks: List<Book>, isSorting: Boolean) -> Unit,
     ): Int {
 
@@ -49,15 +50,11 @@ object QuickSort {
         for (j in low until high) {
             if (compare(arr[j], pivot, sortBy, sortOrder) <= 0) {
                 i++
-                swap(arr, i, j)
-                callback(arr, true)
-                delay(DELAY_DURATION)
+                swap(arr, i, j, delayDuration, callback)
             }
         }
 
-        swap(arr, i + 1, high)
-        callback(arr, true)
-        delay(DELAY_DURATION)
+        swap(arr, i + 1, high, delayDuration, callback)
         return i + 1
     }
 
@@ -83,9 +80,19 @@ object QuickSort {
     }
 
     // Method to swap two elements in the list
-    private fun swap(arr: MutableList<Book>, i: Int, j: Int) {
+    private suspend fun swap(
+        arr: MutableList<Book>,
+        i: Int,
+        j: Int,
+        delayDuration: Long,
+        callback: (sortedBooks: List<Book>, isSorting: Boolean) -> Unit,
+    ) {
         val temp = arr[i]
         arr[i] = arr[j]
         arr[j] = temp
+        if (i != j) {
+            callback(arr, true)
+            delay(delayDuration)
+        }
     }
 }

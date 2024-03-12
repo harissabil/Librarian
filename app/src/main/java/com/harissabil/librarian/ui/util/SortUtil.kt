@@ -6,9 +6,11 @@ import android.view.View
 import com.harissabil.librarian.MainViewModel
 import com.harissabil.librarian.R
 import com.harissabil.librarian.core.adapter.BookListAdapter
+import com.harissabil.librarian.core.data_structure.sorting.BubbleSort
 import com.harissabil.librarian.core.data_structure.sorting.InsertionSort
 import com.harissabil.librarian.core.data_structure.sorting.MergeSort
 import com.harissabil.librarian.core.data_structure.sorting.QuickSort
+import com.harissabil.librarian.core.data_structure.sorting.SelectionSort
 import com.harissabil.librarian.core.data_structure.sorting.enums.SortAlgorithm
 import com.harissabil.librarian.core.data_structure.sorting.enums.SortBy
 import com.harissabil.librarian.core.data_structure.sorting.enums.SortOrder
@@ -25,6 +27,7 @@ fun popupMenu(
     scope: CoroutineScope,
     bookListAdapter: BookListAdapter,
     screen: MainViewModel.Screen,
+    delayDuration: Long,
 ) {
     val popupMenu = android.widget.PopupMenu(
         context,
@@ -46,7 +49,8 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
                 true
             }
@@ -61,7 +65,8 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
                 true
             }
@@ -76,7 +81,8 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
                 true
             }
@@ -91,7 +97,8 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
                 true
             }
@@ -106,7 +113,8 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
                 true
             }
@@ -121,8 +129,25 @@ fun popupMenu(
                     scope = scope,
                     books = books,
                     bookListAdapter = bookListAdapter,
-                    screen = screen
+                    screen = screen,
+                    delayDuration = delayDuration
                 )
+                true
+            }
+
+            R.id.action_sort_selection_sort -> {
+                if (viewModel.isLoading.value == true) {
+                    return@setOnMenuItemClickListener false
+                }
+                viewModel.setSortAlgorithm(SortAlgorithm.SELECTION_SORT, screen)
+                true
+            }
+
+            R.id.action_sort_bubble_sort -> {
+                if (viewModel.isLoading.value == true) {
+                    return@setOnMenuItemClickListener false
+                }
+                viewModel.setSortAlgorithm(SortAlgorithm.BUBBLE_SORT, screen)
                 true
             }
 
@@ -130,10 +155,7 @@ fun popupMenu(
                 if (viewModel.isLoading.value == true) {
                     return@setOnMenuItemClickListener false
                 }
-                viewModel.setSortAlgorithm(
-                    SortAlgorithm.INSERTION_SORT,
-                    screen
-                )
+                viewModel.setSortAlgorithm(SortAlgorithm.INSERTION_SORT, screen)
                 true
             }
 
@@ -167,6 +189,7 @@ private fun sortBooks(
     books: List<Book>,
     bookListAdapter: BookListAdapter,
     screen: MainViewModel.Screen,
+    delayDuration: Long,
 ) {
 
     val currentSortAlgorithm = if (screen == MainViewModel.Screen.BOOKS) {
@@ -187,11 +210,42 @@ private fun sortBooks(
 
     scope.launch {
         when (currentSortAlgorithm) {
+            SortAlgorithm.SELECTION_SORT -> {
+                SelectionSort.selectionSort(
+                    books.toMutableList(),
+                    currentSortBy,
+                    currentSortOrder,
+                    delayDuration
+                ) { sortedBooks, isSorting ->
+                    bookListAdapter.submitList(sortedBooks.toMutableList())
+                    viewModel.setIsLoading(isSorting)
+                    if (!isSorting) {
+                        viewModel.setBooks(sortedBooks, screen)
+                    }
+                }
+            }
+
+            SortAlgorithm.BUBBLE_SORT -> {
+                BubbleSort.bubbleSort(
+                    books.toMutableList(),
+                    currentSortBy,
+                    currentSortOrder,
+                    delayDuration
+                ) { sortedBooks, isSorting ->
+                    bookListAdapter.submitList(sortedBooks.toMutableList())
+                    viewModel.setIsLoading(isSorting)
+                    if (!isSorting) {
+                        viewModel.setBooks(sortedBooks, screen)
+                    }
+                }
+            }
+
             SortAlgorithm.INSERTION_SORT -> {
                 InsertionSort.insertionSort(
                     books.toMutableList(),
                     currentSortBy,
-                    currentSortOrder
+                    currentSortOrder,
+                    delayDuration
                 ) { sortedBooks, isSorting ->
                     bookListAdapter.submitList(sortedBooks.toMutableList())
                     viewModel.setIsLoading(isSorting)
@@ -207,7 +261,8 @@ private fun sortBooks(
                     0,
                     books.size - 1,
                     currentSortBy,
-                    currentSortOrder
+                    currentSortOrder,
+                    delayDuration
                 ) { sortedBooks, isSorting ->
                     bookListAdapter.submitList(sortedBooks.toMutableList())
                     viewModel.setIsLoading(isSorting)
@@ -223,7 +278,8 @@ private fun sortBooks(
                     0,
                     books.size - 1,
                     currentSortBy,
-                    currentSortOrder
+                    currentSortOrder,
+                    delayDuration
                 ) { sortedBooks, isSorting ->
                     bookListAdapter.submitList(sortedBooks.toMutableList())
                     viewModel.setIsLoading(isSorting)

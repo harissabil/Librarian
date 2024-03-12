@@ -2,6 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_sort_selection_sort"
+        android:title="@string/selection_sort"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sort_bubble_sort"
+        android:title="@string/bubble_sort"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_sort_insertion_sort"
         android:title="@string/insertion_sort"
         app:showAsAction="never" />

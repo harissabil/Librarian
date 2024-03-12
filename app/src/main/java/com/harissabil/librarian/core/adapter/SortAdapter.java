@@ -73,6 +73,8 @@ public class SortAdapter extends ListAdapter<Sort, SortAdapter.ViewHolder> {
 
         private int getSortAlgorithmStringId(SortAlgorithm algorithm) {
             return switch (algorithm) {
+                case SELECTION_SORT -> R.string.selection_sort;
+                case BUBBLE_SORT -> R.string.bubble_sort;
                 case INSERTION_SORT -> R.string.insertion_sort;
                 case MERGE_SORT -> R.string.merge_sort;
                 case QUICK_SORT -> R.string.quick_sort;

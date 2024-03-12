@@ -6,36 +6,38 @@ import com.harissabil.librarian.core.data_structure.sorting.enums.SortOrder
 import com.harissabil.librarian.data.model.Book
 import kotlinx.coroutines.delay
 
-object InsertionSort {
-
-    // Method to perform insertion sort on the given array
-    suspend fun insertionSort(
+object BubbleSort {
+    // Method to perform bubble sort on the given array of books
+    suspend fun bubbleSort(
         arr: MutableList<Book>,
         sortBy: SortBy,
         sortOrder: SortOrder,
         delayDuration: Long,
         callback: (sortedBooks: List<Book>, isSorting: Boolean) -> Unit,
     ) {
-        for (i in 1 until arr.size) {
-            val key = arr[i]
-            var j = i - 1
+        val n = arr.size
+        var swapped: Boolean
 
-            /* Move elements of arr[0..i-1], that are
-            greater than key, to one position ahead
-            of their current position */
-            while (j >= 0 && compare(arr[j], key, sortBy, sortOrder) > 0) {
-                arr[j + 1] = arr[j]
-                j--
-//                callback(arr, true)
-//                delay(delayDuration)
+        for (i in 0 until n - 1) {
+            swapped = false
+            for (j in 0 until n - i - 1) {
+                if (compare(arr[j], arr[j + 1], sortBy, sortOrder) > 0) {
+                    // Swap arr[j] and arr[j+1]
+                    val temp = arr[j]
+                    arr[j] = arr[j + 1]
+                    arr[j + 1] = temp
+                    swapped = true
+                    callback(arr, true)
+                    delay(delayDuration)
+                }
             }
-            arr[j + 1] = key
-            callback(arr, true)
-            delay(delayDuration)
+            // If no two elements were swapped by inner loop, then break
+            if (!swapped)
+                break
         }
 
         callback(arr, false)
-        Log.d("InsertionSort", "Array sorted successfully!")
+        Log.d("BubbleSort", "Array sorted successfully!")
     }
 
     // Method to compare two books based on the sorting criteria
