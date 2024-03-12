@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
-    id 'org.jetbrains.kotlin.android'
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -59,4 +61,8 @@ dependencies {
 
     // Splash Screen
     implementation libs.core.splashscreen
+
+    // Dagger Hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 }
