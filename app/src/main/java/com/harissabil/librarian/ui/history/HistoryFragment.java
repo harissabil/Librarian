@@ -10,11 +10,9 @@ import android.view.ViewGroup;
 
 import com.harissabil.librarian.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class HistoryFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
