@@ -2,7 +2,6 @@ package com.harissabil.librarian;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -28,10 +27,13 @@ import com.harissabil.librarian.ui.about.AboutActivity;
 import com.harissabil.librarian.ui.books.BooksFragment;
 import com.harissabil.librarian.ui.history.HistoryFragment;
 import com.harissabil.librarian.ui.library.LibraryFragment;
+import com.harissabil.librarian.ui.settings.SettingsActivity;
 
-import java.io.File;
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -148,6 +150,10 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.action_about) {
             Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+            return true;
+        } else if (itemId == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
