@@ -34,6 +34,9 @@ import com.harissabil.librarian.databinding.FragmentAddBookBinding;
 
 import java.util.Objects;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class AddBookFragment extends DialogFragment {
 
     private FragmentAddBookBinding binding;
