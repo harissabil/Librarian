@@ -34,8 +34,7 @@
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
                 android:text="@string/add_book_capt"
-                android:textAppearance="@style/ToolbarTitle"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:textAppearance="@style/ToolbarTitle" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
