@@ -20,8 +20,10 @@ import com.harissabil.librarian.data.model.Sort
 import com.harissabil.librarian.databinding.FragmentBooksBinding
 import com.harissabil.librarian.ui.add_book.AddBookFragment
 import com.harissabil.librarian.ui.util.popupMenu
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class BooksFragment : Fragment(), OnSortClickListener {
 
     private var _binding: FragmentBooksBinding? = null
@@ -75,12 +77,14 @@ class BooksFragment : Fragment(), OnSortClickListener {
         }
 
         binding.fabAddBook.setOnClickListener {
-            val fm = requireActivity().supportFragmentManager
-            fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .add(android.R.id.content, AddBookFragment())
-                .addToBackStack(null)
-                .commit()
+            if (viewModel.isLoading.value == false) {
+                val fm = requireActivity().supportFragmentManager
+                fm.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(android.R.id.content, AddBookFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
     }
 
@@ -105,6 +109,11 @@ class BooksFragment : Fragment(), OnSortClickListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSortingDelayDuration()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -120,6 +129,7 @@ class BooksFragment : Fragment(), OnSortClickListener {
             lifecycleScope,
             bookListAdapter,
             Screen.BOOKS,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 
@@ -132,7 +142,8 @@ class BooksFragment : Fragment(), OnSortClickListener {
             viewModel.booksState.value.books,
             lifecycleScope,
             bookListAdapter,
-            Screen.BOOKS
+            Screen.BOOKS,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 
@@ -145,7 +156,8 @@ class BooksFragment : Fragment(), OnSortClickListener {
             viewModel.booksState.value.books,
             lifecycleScope,
             bookListAdapter,
-            Screen.BOOKS
+            Screen.BOOKS,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 }

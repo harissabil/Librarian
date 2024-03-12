@@ -18,8 +18,10 @@ import com.harissabil.librarian.core.adapter.SortAdapter.OnSortClickListener
 import com.harissabil.librarian.data.model.Sort
 import com.harissabil.librarian.databinding.FragmentLibraryBinding
 import com.harissabil.librarian.ui.util.popupMenu
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LibraryFragment : Fragment(), OnSortClickListener {
 
     private var _binding: FragmentLibraryBinding? = null
@@ -86,6 +88,11 @@ class LibraryFragment : Fragment(), OnSortClickListener {
         binding.rvBooks.adapter = ConcatAdapter(sortAdapter, bookListAdapter)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSortingDelayDuration()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
@@ -100,7 +107,8 @@ class LibraryFragment : Fragment(), OnSortClickListener {
             viewModel.libState.value.books,
             lifecycleScope,
             bookListAdapter,
-            Screen.LIBRARY
+            Screen.LIBRARY,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 
@@ -113,7 +121,8 @@ class LibraryFragment : Fragment(), OnSortClickListener {
             viewModel.libState.value.books,
             lifecycleScope,
             bookListAdapter,
-            Screen.LIBRARY
+            Screen.LIBRARY,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 
@@ -126,7 +135,8 @@ class LibraryFragment : Fragment(), OnSortClickListener {
             viewModel.libState.value.books,
             lifecycleScope,
             bookListAdapter,
-            Screen.LIBRARY
+            Screen.LIBRARY,
+            viewModel.sortingDelayDuration.value!!
         )
     }
 }
