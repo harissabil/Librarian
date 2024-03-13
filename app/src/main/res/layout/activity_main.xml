@@ -34,14 +34,14 @@
 
             <Space
                 android:layout_width="8dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:indeterminate="true"
-                android:visibility="gone"
                 android:layout_width="20dp"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp"
+                android:indeterminate="true"
+                android:visibility="gone" />
 
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -70,17 +70,17 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Books" />
+                android:text="@string/books" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Library" />
+                android:text="@string/library" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="History" />
+                android:text="@string/history" />
 
         </com.google.android.material.tabs.TabLayout>
 
@@ -95,5 +95,15 @@
             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fab_add_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_book"
+        android:text="@string/add_book"
+        app:icon="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

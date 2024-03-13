@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.harissabil.librarian.MainActivity
 import com.harissabil.librarian.MainViewModel
 import com.harissabil.librarian.MainViewModel.Screen
 import com.harissabil.librarian.R
@@ -18,7 +18,6 @@ import com.harissabil.librarian.core.adapter.SortAdapter
 import com.harissabil.librarian.core.adapter.SortAdapter.OnSortClickListener
 import com.harissabil.librarian.data.model.Sort
 import com.harissabil.librarian.databinding.FragmentBooksBinding
-import com.harissabil.librarian.ui.add_book.AddBookFragment
 import com.harissabil.librarian.ui.util.popupMenu
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -75,17 +74,6 @@ class BooksFragment : Fragment(), OnSortClickListener {
                 }
             }
         }
-
-        binding.fabAddBook.setOnClickListener {
-            if (viewModel.isLoading.value == false) {
-                val fm = requireActivity().supportFragmentManager
-                fm.beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .add(android.R.id.content, AddBookFragment())
-                    .addToBackStack(null)
-                    .commit()
-            }
-        }
     }
 
     private fun setupRecyclerView() {
@@ -101,11 +89,7 @@ class BooksFragment : Fragment(), OnSortClickListener {
         binding.rvBooks.adapter = ConcatAdapter(sortAdapter, bookListAdapter)
 
         binding.rvBooks.setOnScrollChangeListener { _: View?, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
-            if (scrollY > oldScrollY) {
-                binding.fabAddBook.shrink()
-            } else {
-                binding.fabAddBook.extend()
-            }
+            (requireActivity() as? MainActivity)?.onScrollChanged(scrollY, oldScrollY)
         }
     }
 
