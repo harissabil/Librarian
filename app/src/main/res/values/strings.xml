@@ -26,4 +26,8 @@
     <string name="sorting_delay">Sorting Delay</string>
     <string name="bubble_sort">Bubble Sort</string>
     <string name="selection_sort">Selection Sort</string>
+    <string name="books">Books</string>
+    <string name="library">Library</string>
+    <string name="history">History</string>
+    <string name="search_book">Search book</string>
 </resources>
