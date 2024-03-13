@@ -22,7 +22,7 @@
         android:layout_height="180dp"
         android:layout_gravity="center"
         android:layout_margin="32dp"
-        android:contentDescription="@string/add_book"
+        android:contentDescription="@string/no_books_found"
         android:src="@drawable/shrugging_kaomoji"
         android:visibility="gone" />
 
