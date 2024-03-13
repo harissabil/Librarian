@@ -104,7 +104,7 @@ public class SortAdapter extends ListAdapter<Sort, SortAdapter.ViewHolder> {
                 @Override
                 public boolean areItemsTheSame(
                         @NonNull Sort oldSort, @NonNull Sort newSort) {
-                    return oldSort.getSortAlgorithm() == newSort.getSortAlgorithm();
+                    return true;
                 }
 
                 @Override
