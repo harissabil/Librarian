@@ -9,6 +9,7 @@ import com.harissabil.librarian.core.data_structure.sorting.enums.SortOrder
 import com.harissabil.librarian.core.preferences.PreferencesRepository
 import com.harissabil.librarian.data.model.Book
 import com.harissabil.librarian.ui.books.BooksState
+import com.harissabil.librarian.ui.history.HistoryState
 import com.harissabil.librarian.ui.library.LibraryState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,6 +44,9 @@ class MainViewModel @Inject constructor(
     private val _libState = MutableStateFlow(LibraryState())
     val libState: StateFlow<LibraryState> = _libState.asStateFlow()
 
+    private val _historyState = MutableLiveData(HistoryState())
+    val historyState: LiveData<HistoryState> = _historyState
+
     fun setBooks(books: List<Book>, screen: Screen) {
         when (screen) {
             Screen.BOOKS -> _booksState.value = _booksState.value.copy(books = books)
@@ -71,6 +75,7 @@ class MainViewModel @Inject constructor(
             }
 
             Screen.HISTORY -> {
+                val currentTime = System.currentTimeMillis()
                 //TODO: Implement history screen
             }
         }

@@ -146,4 +146,10 @@ public class AddBookFragment extends DialogFragment {
             return true;
         });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
