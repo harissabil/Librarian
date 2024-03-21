@@ -76,7 +76,8 @@ class MainViewModel @Inject constructor(
 
             Screen.HISTORY -> {
                 val currentTime = System.currentTimeMillis()
-                //TODO: Implement history screen
+                //TODO: Implement history add book to history
+                // write your code here
             }
         }
     }
@@ -84,6 +85,7 @@ class MainViewModel @Inject constructor(
     fun borrowBook(book: Book) {
         addBook(book, Screen.LIBRARY)
         _booksState.value = _booksState.value.copy(books = _booksState.value.books.minus(book))
+        addBook(book, Screen.HISTORY)
     }
 
     fun returnBook(book: Book) {
