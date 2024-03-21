@@ -61,7 +61,7 @@ public class AboutActivity extends AppCompatActivity {
         });
 
         binding.cvPrivacy.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/harissabil/GLogsPrivacyPolicy"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/harissabil/Librarian/blob/master/docs/privacy_policy.md"));
             startActivity(intent);
         });
     }
