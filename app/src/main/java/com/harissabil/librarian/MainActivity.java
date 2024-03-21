@@ -202,13 +202,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //
+                //Todo: Implement search book
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //
+                //Todo: Implement search book
                 return true;
             }
         });
