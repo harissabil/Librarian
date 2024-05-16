@@ -32,7 +32,7 @@ To install Librarian, there are two options available:
 
 ### Option 1: Download from Play Store
 
-Visit the [Fishlog Play Store page](https://play.google.com/store/apps/details?id=com.harissabil.librarian).
+Visit the [Librarian Play Store page](https://play.google.com/store/apps/details?id=com.harissabil.librarian).
 
 ### Option 2: Build from Source
 
