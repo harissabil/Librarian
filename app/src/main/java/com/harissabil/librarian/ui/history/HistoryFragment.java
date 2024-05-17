@@ -7,13 +7,19 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.harissabil.librarian.MainViewModel;
 import com.harissabil.librarian.core.adapter.BookHistoryListAdapter;
+import com.harissabil.librarian.core.data_structure.searching.LinearSearch;
+import com.harissabil.librarian.data.model.Book;
 import com.harissabil.librarian.databinding.FragmentHistoryBinding;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -45,13 +51,18 @@ public class HistoryFragment extends Fragment {
         setupRecyclerView();
 
         viewModel.getHistoryState().observe(getViewLifecycleOwner(), state -> {
+            if (!Boolean.TRUE.equals(viewModel.isLoading().getValue())) {
+                viewModel.getSearchQuery().observe(getViewLifecycleOwner(), query -> {
+                    LinkedList<Pair<Long, Book>> filteredBooks = query.isEmpty() ? state.getBooks()
+                            : LinearSearch.linearSearchByTitle(state.getBooks(), query);
+                    adapter.submitList(new ArrayList<>(filteredBooks));
+                });
+            }
             if (state.getBooks().isEmpty()) {
                 binding.ivEmptyBooks.setVisibility(View.VISIBLE);
             } else {
                 binding.ivEmptyBooks.setVisibility(View.GONE);
             }
-            //TODO: Show the list of books from the history state
-            // write your code here
         });
     }
 
